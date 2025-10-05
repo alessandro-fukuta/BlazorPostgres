@@ -1,0 +1,69 @@
+﻿@page "/weather"
+@attribute [StreamRendering]
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Carros</h1>
+
+<p>This component demonstrates showing data.</p>
+
+@if (listaCarros == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th aria-label="Temperature in Celsius">Temp. (C)</th>
+                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Carro in listaCarros)
+            {
+                <tr>
+                    <td>@Carro.Modelo</td>
+                    <td>@Carro.Cor</td>
+                    <td>@Carro.Ano</td>
+                    <td>@Carro.Marca</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public List<Carro> listaCarros = new List<Carro>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(500);
+        listaCarros.Add(new Carro() { 
+                    Modelo = "A4", 
+                    Marca = "Audi Glorioso", 
+                    Ano = 2026, 
+                    Cor = "Preto" 
+                    });
+
+
+        listaCarros.Add(new Carro() { Modelo = "C4", Marca = "Citroen", Ano = 2018, Cor = "Branco" });
+        listaCarros.Add(new Carro() { Modelo = "Golf", Marca = "Volkswagen", Ano = 2019, Cor = "Preto" });
+        
+    }
+
+    public class Carro
+    {
+        public string? Modelo { get; set; }
+        public string? Marca { get; set; }  
+        public int Ano { get; set; }
+        public string? Cor { get; set; }
+
+     
+
+    }
+}

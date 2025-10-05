@@ -1,0 +1,35 @@
+@page "/categorias/add"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject ICategoriasRepositories _categroiasRepositories
+
+<div class="row">
+    <div class="col-md-10">
+        <h2>Cadastro de Categorias</h2>
+    </div>
+
+</div>
+<div class="formulario">
+
+    <EditForm Model="categoria" OnValidSubmit="HandleValidSubmit" formname="CategoriaForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <InputText id="nome" class="form-control" onfocus @bind-Value="categoria.nome" />
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a class="btn btn-secondary" href="/categorias">Cancelar</a>
+    </EditForm>
+
+</div>
+
+@code {
+    private Categoria categoria = new Categoria();
+
+    private async Task HandleValidSubmit()
+    {
+        await _categroiasRepositories.AddCategoriaAsync(categoria);
+        NavigationManager.NavigateTo("/categorias");
+    }
+}

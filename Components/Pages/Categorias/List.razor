@@ -1,0 +1,74 @@
+@page "/categorias"
+@rendermode InteractiveServer
+@inject ICategoriasRepositories _categroiasRepositories
+
+
+<div class="row">
+    <div class="col-md-10">
+        <h2>Lista de Categorias</h2>
+    </div>
+    <div style="text-align:end" class="col-md-2">
+        <a class="btn btn-primary" href="/categorias/add">+</a>
+    </div>
+</div>
+<div class="row">
+   
+    <div class="col-md-12">
+        Lista categorias cadastradas no sistema.
+    </div>
+     <div class="col-md-12">
+        <hr />
+    </div>
+    
+</div
+
+@if (categorias == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var categoria in categorias)
+            {
+                <tr>
+                    <td>@categoria.id</td>
+                    <td>@categoria.nome</td>
+                    <td style ="width: 150px; text-align: end;">
+                        <a href="/categorias/edit/@categoria.id" class="btn btn-sm btn-warning">
+                            Editar
+                        </a>
+
+                        <button @onclick="() => ExcluirCategoria(categoria.id)" class="btn btn-sm btn-danger">
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Categoria>? categorias;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categorias = await _categroiasRepositories.GetAllCategoriasAsync();
+    }
+
+    private async Task ExcluirCategoria(int id)
+    {
+        await _categroiasRepositories.DeleteCategoriaAsync(id);
+        categorias = await _categroiasRepositories.GetAllCategoriasAsync();
+        StateHasChanged();
+    }
+
+}

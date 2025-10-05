@@ -1,0 +1,94 @@
+@page "/produtos/edit/{id:int}"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject ICategoriasRepositories _categroiasRepositories
+@inject IProdutosRepositories _produtosRepositories
+
+<div class="row">
+    <div class="col-md-10">
+        <h2>Edição de Produtos</h2>
+    </div>
+</div>
+<div class="formulario">
+
+<EditForm Model="produto" OnValidSubmit="HandleValidSubmit" formname="ProdutoForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row">
+        <div class="col-md-5">
+            <label for="descricao" class="form-label">Descrição</label>
+            <InputText id="descricao" class="form-control" onfocus @bind-Value="produto.descricao" />
+        </div>
+        <div class="col-md-3">
+            <label for="codigo_barra" class="form-label">Código de Barras (ean32)</label>
+            <InputText id="codigo_barra" class="form-control" onfocus @bind-Value="produto.codigo_barra" />
+        </div>
+        <div class="col-md-2">
+            <label for="preco_custo" class="form-label">Preço de Custo</label>
+            <InputNumber id="preco_custo" TValue="decimal" class="form-control" onfocus
+                @bind-Value="produto.preco_custo" />
+        </div>
+        <div class="col-md-2">
+            <label for="preco_custo" class="form-label">Custo Médio</label>
+            <InputNumber id="preco_custo_medio" TValue="decimal" class="form-control" onfocus
+                @bind-Value="produto.preco_custo_medio" />
+        </div>
+        <div class="col-md-2 mt-3">
+            <label for="preco_venda_prazo" class="form-label">Preço a Prazo</label>
+            <InputNumber id="preco_venda_prazo" TValue="decimal" class="form-control" onfocus
+                @bind-Value="produto.preco_venda_prazo" />
+        </div>
+        <div class="col-md-2 mt-3">
+            <label for="preco_venda_vista" class="form-label">Preço a Vista</label>
+            <InputNumber id="preco_venda_vista" TValue="decimal" class="form-control" onfocus
+                @bind-Value="produto.preco_venda_vista" />
+        </div>
+        <div class="col-md-1 mt-3">
+            <label for="estoque" class="form-label">Estoque</label>
+            <InputNumber id="estoque" TValue="int" class="form-control" onfocus @bind-Value="produto.estoque" />
+        </div>
+        <div class="col-md-7 mt-3">
+            @* implementar a lista de categorias*@
+            <label for="estoque" class="form-label">Selecione a Categoria</label>
+            <select class="form-select" @bind="produto.categoriaID">
+                <option value="">-- Selecione a Categoria --</option>
+                @if (lista_categorias != null)
+                {
+                    @foreach (var categoria in lista_categorias)
+                    {
+                        <option value="@categoria.id">@categoria.nome</option>
+                    }
+                }
+            </select>
+        </div>
+
+    </div>
+<div class="mt-3">
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a class="btn btn-secondary" href="/produtos">Cancelar</a>
+</div>
+
+</EditForm>
+
+</div>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Produto produto = new Produto();
+    private List<Categoria>? lista_categorias = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista_categorias = await _categroiasRepositories.GetAllCategoriasAsync();
+        produto = await _produtosRepositories.GetProdutoByIdAsync(id);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await _produtosRepositories.UpdateProdutoAsync(produto);
+        NavigationManager.NavigateTo("/produtos");
+    }
+}

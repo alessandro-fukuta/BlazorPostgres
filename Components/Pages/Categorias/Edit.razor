@@ -1,0 +1,56 @@
+@page "/categorias/edit/{id:int}"
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject ICategoriasRepositories _categroiasRepositories
+
+<div class="row">
+    <div class="col-md-10">
+        <h2>Edição de Categorias</h2>
+    </div>
+</div>
+
+<div class="formulario">
+
+<EditForm Model="categoria" OnValidSubmit="HandleValidSubmit" formname="CategoriaForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <InputText id="nome" class="form-control" onfocus @bind-Value="categoria.nome" />
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a class="btn btn-secondary" href="/categorias">Cancelar</a>
+</EditForm>
+
+</div>
+
+<style>
+
+.formulario {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+
+</style>
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Categoria categoria = new Categoria();
+
+    protected override async Task OnInitializedAsync()
+    {
+        categoria = await _categroiasRepositories.GetCategoriaByIdAsync(id);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await _categroiasRepositories.UpdateCategoriaAsync(categoria);
+        NavigationManager.NavigateTo("/categorias");
+    }
+}
+

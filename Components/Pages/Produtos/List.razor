@@ -1,0 +1,74 @@
+@page "/produtos"
+@rendermode InteractiveServer
+@inject IProdutosRepositories _produtosRepositories
+
+
+<div class="row">
+    <div class="col-md-10">
+        <h2>Lista de Produtos</h2>
+    </div>
+    <div style="text-align:end" class="col-md-2">
+        <a class="btn btn-primary" href="/produtos/add">+</a>
+    </div>
+</div>
+<div class="row">
+   
+    <div class="col-md-12">
+        Lista Produtos cadastrados no sistema.
+    </div>
+     <div class="col-md-12">
+        <hr />
+    </div>
+    
+</div
+
+@if (Produtos == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else
+{
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Produto in Produtos)
+            {
+                <tr>
+                    <td>@Produto.id</td>
+                    <td>@Produto.descricao</td>
+                    <td style ="width: 150px; text-align: end;">
+                        <a href="/Produtos/edit/@Produto.id" class="btn btn-sm btn-warning">
+                            Editar
+                        </a>
+
+                        <button @onclick="() => ExcluirProduto(Produto.id)" class="btn btn-sm btn-danger">
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Produto>? Produtos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Produtos = await _produtosRepositories.GetAllProdutosAsync();
+    }
+
+    private async Task ExcluirProduto(int id)
+    {
+        await _produtosRepositories.DeleteProdutoAsync(id);
+        Produtos = await _produtosRepositories.GetAllProdutosAsync();
+        StateHasChanged();
+    }
+
+}
