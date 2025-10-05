@@ -2,11 +2,10 @@ using BlazorPostgres.Data;
 using BlazorPostgres.Models;
 using BlazorPostgres.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+
 
 namespace BlazorPostgres.Repositories
 {
-    
     public class CategoriasRepositories : ICategoriasRepositories
     {
         private readonly ApplicationDbContext _context;

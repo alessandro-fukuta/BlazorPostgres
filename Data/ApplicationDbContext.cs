@@ -13,6 +13,7 @@ namespace BlazorPostgres.Data
         /* referencia das classes que representam as tabelas de dados  */
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
         
     }
 }
