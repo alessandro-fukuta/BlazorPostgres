@@ -1,0 +1,96 @@
+@page "/empresa/add"
+@rendermode InteractiveServer
+@using AutoSchool.Models
+@using AutoSchool.Repositories
+@inject IEmpresaRepositories EmpresaRepository
+@inject NavigationManager NavigationManager
+
+<h3>Adicionar Empresa</h3>
+
+<EditForm class="formulario" Model="empresa" OnValidSubmit="Salvar">
+    <DataAnnotationsValidator />
+  
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label for="nome" class="form-label">Nome</label>
+        <InputText id="nome" class="form-control" @bind-Value="empresa.Nome" />
+        <ValidationMessage For="@(() => empresa.Nome)" class="text-danger" />
+    </div>
+    <div class="col-md-3 mb-3">
+        <label for="cnpj" class="form-label">CNPJ</label>
+        <InputText id="cnpj" class="form-control" @bind-Value="empresa.Cnpj" />
+        <ValidationMessage For="@(() => empresa.Cnpj)" class="text-danger" />
+    </div>
+    <div class="col-md-3 mb-3">
+        <label for="telefone" class="form-label">Telefone</label>
+        <InputText id="telefone" class="form-control" @bind-Value="empresa.Telefone" />
+        <ValidationMessage For="@(() => empresa.Telefone)" class="text-danger" />
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="endereco" class="form-label">Endereço</label>
+        <InputText id="endereco" class="form-control" @bind-Value="empresa.Endereco" />
+        <ValidationMessage For="@(() => empresa.Endereco)" class="text-danger" />
+    </div>
+    <div class="col-md-1 mb-3">
+        <label for="numero" class="form-label">Nº</label>
+        <InputText id="numero" class="form-control" @bind-Value="empresa.Numero" />
+        <ValidationMessage For="@(() => empresa.Numero)" class="text-danger" />
+    </div>
+    <div class="col-md-3 mb-3">
+        <label for="bairro" class="form-label">Bairro</label>
+        <InputText id="bairro" class="form-control" @bind-Value="empresa.Bairro" />
+        <ValidationMessage For="@(() => empresa.Bairro)" class="text-danger" />
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="cidade" class="form-label">Cidade</label>
+        <InputText id="cidade" class="form-control" @bind-Value="empresa.Cidade" />
+        <ValidationMessage For="@(() => empresa.Cidade)" class="text-danger" />
+    </div>
+    <div class="col-md-2 mb-3">
+        <label for="estado" class="form-label">UF</label>
+        <InputText id="estado" class="form-control" @bind-Value="empresa.Estado" />
+        <ValidationMessage For="@(() => empresa.Estado)" class="text-danger" />
+    </div>
+     <div class="col-md-2 mb-3">
+        <label for="cep" class="form-label">CEP</label>
+        <InputText id="cep" class="form-control" @bind-Value="empresa.Cep" />
+        <ValidationMessage For="@(() => empresa.Cep)" class="text-danger" />
+    </div>
+    <div class="col-md-8 mb-3">
+        <label for="email" class="form-label">Email</label>
+        <InputText id="email" class="form-control" @bind-Value="empresa.Email" />
+        <ValidationMessage For="@(() => empresa.Email)" class="text-danger" />
+    </div>
+    
+
+</div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="button" class="btn btn-secondary" @onclick="() => Retornar()">Voltar</button>
+
+</EditForm>
+
+<style>
+.formulario {
+    padding:20px;
+    background-color: #e7e7e8;
+    border:2px solid #ccc;
+}
+</style>
+
+@code {
+    private Empresa empresa = new Empresa();
+
+    private async Task Salvar()
+    {
+        await EmpresaRepository.AddEmpresaAsync(empresa);
+        NavigationManager.NavigateTo("/empresa/list");
+    }
+
+    private void Retornar()
+    {
+        NavigationManager.NavigateTo("/empresa/list");
+    }
+
+
+}

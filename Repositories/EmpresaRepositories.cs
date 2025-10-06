@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using BlazorPostgres.Data;
 using BlazorPostgres.Models;
 using Microsoft.EntityFrameworkCore;
+using BlazorPostgres.Interfaces;
 
 namespace BlazorPostgres.Repositories
 {
-    public class EmpresaRepositories
+    public class EmpresaRepositories : IEmpresaRepositories
     {
         private readonly ApplicationDbContext _context;
         public EmpresaRepositories(ApplicationDbContext context)

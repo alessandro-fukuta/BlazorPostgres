@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BlazorPostgres")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b57c8ddf62702e036716651c7a43bc382f0ddcc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a833209280fa9cc1cb51b72c3c20ee13b34a38b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("BlazorPostgres")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BlazorPostgres")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
